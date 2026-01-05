@@ -30,4 +30,17 @@ public class PostService {
     public Post findById(String id) {
         return postRepository.findById(id).orElseThrow(()->new NotFoundException("Post not found with id: " + id));
     }
+
+    // 수정 (update)
+    public Post update(String id, String title, String content) {
+        Post post = findById(id);
+        if (title != null){
+            post.setTitle(title);
+        }
+        if (content != null){
+            post.setContent(content);
+        }
+        post.setLastModifiedAt(java.time.OffsetDateTime.now());
+        return postRepository.save(post);
+    }
 }

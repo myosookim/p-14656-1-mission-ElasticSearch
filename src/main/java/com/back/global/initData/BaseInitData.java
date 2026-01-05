@@ -22,7 +22,7 @@ public class BaseInitData {
             work1();
             work2();
             work3();
-            work3_1();
+            work4();
         };
     }
 
@@ -56,8 +56,18 @@ public class BaseInitData {
         }
     }
 
-    public void work3_1(){
-        log.debug("Post 조회 예외처리 예시");
-        postService.findById("NotFoundException sample id");
+    private void work4(){
+        log.debug("Post 단건 수정");
+        for (Post post : postService.findAll()) {
+            String newTitle = post.getTitle() + " [Updated]";
+            String newContent = post.getContent() + " This content has been updated.";
+            Post updatedPost = postService.update(post.getId(), newTitle, newContent);
+            log.debug("Updated Post: {}", updatedPost);
+        }
     }
+
+//    public void work3_1(){
+//        log.debug("Post 조회 예외처리 예시");
+//        postService.findById("NotFoundException sample id");
+//    }
 }
