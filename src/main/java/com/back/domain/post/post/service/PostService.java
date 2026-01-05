@@ -43,4 +43,10 @@ public class PostService {
         post.setLastModifiedAt(java.time.OffsetDateTime.now());
         return postRepository.save(post);
     }
+
+    // 삭제 (delete)
+    public void delete(String id) {
+        Post post = findById(id);
+        postRepository.delete(post);
+    }
 }
