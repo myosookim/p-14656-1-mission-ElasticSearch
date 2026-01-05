@@ -1,7 +1,10 @@
 package com.back.domain.post.post.document;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -11,7 +14,7 @@ import java.time.OffsetDateTime;
 
 @Document(indexName = "posts")
 @Data   // @Data가 포함하는 애노테이션 : @Getter, @Setter, @ToString, @EqualsAndHashCode
-public class Post {
+public class Post implements Persistable<String> {
     @Id
     private String id;
     @Field(type= FieldType.Text)
@@ -26,12 +29,14 @@ public class Post {
             type = FieldType.Date,
             format = DateFormat.date_time
     )
+    @CreatedDate
     private OffsetDateTime createdAt;
 
     @Field(
             type = FieldType.Date,
             format = DateFormat.date_time
     )
+    @LastModifiedDate
     private OffsetDateTime lastModifiedAt;
 
 
@@ -39,7 +44,10 @@ public class Post {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.createdAt = OffsetDateTime.now();
-        this.lastModifiedAt = OffsetDateTime.now();
+    }
+
+    @Override
+    public boolean isNew() {
+        return id == null || (createdAt == null && lastModifiedAt == null);
     }
 }
