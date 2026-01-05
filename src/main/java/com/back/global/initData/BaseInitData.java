@@ -21,6 +21,7 @@ public class BaseInitData {
         return args->{
             work1();
             work2();
+            work3();
             work3_1();
         };
     }
@@ -47,16 +48,16 @@ public class BaseInitData {
         }
     }
 
-    private void work3_1(){
-        log.debug("Post 단건 조회");
-        log.debug("조회된 Post: {}", postService.findById("MT4OjZsBzS85wVZ7WFVn"));
-    }
-
-    private void work3_2(){
+    private void work3(){
         log.debug("Post 단건 조회");
         for (Post post : postService.findAll()) {
-            Post postRow = postService.findById(post.getId()).get();
-            log.debug("조회된 Post: {}", postRow);
+            Post fetchedPost = postService.findById(post.getId());
+            log.debug("조회된 Post: {}", fetchedPost);
         }
+    }
+
+    public void work3_1(){
+        log.debug("Post 조회 예외처리 예시");
+        postService.findById("NotFoundException sample id");
     }
 }
