@@ -21,6 +21,7 @@ public class BaseInitData {
         return args->{
             work1();
             work2();
+            work3_1();
         };
     }
 
@@ -43,6 +44,19 @@ public class BaseInitData {
         log.debug("기존 Post 전체 조회");
         for (Post post : postService.findAll()) {
             log.debug("Existing Post: {}", post);
+        }
+    }
+
+    private void work3_1(){
+        log.debug("Post 단건 조회");
+        log.debug("조회된 Post: {}", postService.findById("MT4OjZsBzS85wVZ7WFVn"));
+    }
+
+    private void work3_2(){
+        log.debug("Post 단건 조회");
+        for (Post post : postService.findAll()) {
+            Post postRow = postService.findById(post.getId()).get();
+            log.debug("조회된 Post: {}", postRow);
         }
     }
 }
